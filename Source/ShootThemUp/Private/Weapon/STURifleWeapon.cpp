@@ -5,11 +5,13 @@
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
 
+DEFINE_LOG_CATEGORY_STATIC(RIFLE_WEAPON_COMPONENT, All, All);
+
 void ASTURifleWeapon::FireStart()
 {
-    MakeShot();
     GetWorld()->GetTimerManager().SetTimer(FireTimer, this, &ASTURifleWeapon::MakeShot,
                                            ShootFrequency, true);
+    MakeShot();
 }
 
 void ASTURifleWeapon::FireStop()

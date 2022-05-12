@@ -4,6 +4,7 @@
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
+#include "STUCoreTypes.h"
 #include "STUWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
@@ -17,11 +18,12 @@ public:
     // Sets default values for this component's properties
     USTUWeaponComponent();
 
-    UPROPERTY(EditAnywhere, Category = "Weapon")
-    TArray<TSubclassOf<ASTUBaseWeapon>> WeaponClasses;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+    TArray<FWeaponData> WeaponData;
     void FireStart();
     void FireStop();
     void NextWeapon();
+    void Reload();
 
 protected:
     // Called when the game starts
@@ -52,9 +54,17 @@ private:
     void PlayAnimMontage(UAnimMontage* AnimMontage);
     void InitAnimations();
     void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
+    void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
 
     bool EquipAnimIsGoing = false;
+    bool ReloadAnimIsGoing = false;
 
     bool CanFire() const;
     bool CanEquip() const;
+    bool CanReload() const;
+
+    void OnEmptyClip();
+    void ChangeClip();
+
+    UAnimMontage* CurrentReloaadAnimMontage = nullptr;
 };

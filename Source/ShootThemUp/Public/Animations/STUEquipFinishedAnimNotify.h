@@ -4,15 +4,11 @@
 
 #include "Animation/AnimNotifies/AnimNotify.h"
 #include "CoreMinimal.h"
+#include "Animations/STUAnimNotify.h"
 #include "STUEquipFinishedAnimNotify.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNotifiedSignture, USkeletalMeshComponent* MeshComponent)
-    UCLASS()
-class SHOOTTHEMUP_API USTUEquipFinishedAnimNotify : public UAnimNotify
+UCLASS()
+class SHOOTTHEMUP_API USTUEquipFinishedAnimNotify : public USTUAnimNotify
 {
     GENERATED_BODY()
-
-public:
-    virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;
-    FOnNotifiedSignture OnNotified;
 };
