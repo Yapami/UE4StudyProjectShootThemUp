@@ -7,7 +7,7 @@
 #include "STUGameHUD.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class SHOOTTHEMUP_API ASTUGameHUD : public AHUD
@@ -16,4 +16,10 @@ class SHOOTTHEMUP_API ASTUGameHUD : public AHUD
 
     void DrawHUD() override;
     void DrawCrossHair();
+
+protected:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
+
+    virtual void BeginPlay() override;
 };
