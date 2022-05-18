@@ -48,7 +48,6 @@ void ASTUBaseWeapon::DecreaseAmmo()
         FireStop();
         OnClipEmpty.Broadcast();
     }
-    LogAmmo();
 }
 
 bool ASTUBaseWeapon::IsAmmoEmpty() const
@@ -73,13 +72,6 @@ void ASTUBaseWeapon::ChangeClip()
     }
 
     AmmoCurrentData.Bullets = AmmoDefaultData.Bullets;
-    UE_LOG(LogTemp, Error, TEXT("-------------ChangeClip-----------"));
-}
-
-void ASTUBaseWeapon::LogAmmo()
-{
-    UE_LOG(LogTemp, Error, TEXT("Ammo: Bullets: %i, Clips: %i"), AmmoCurrentData.Bullets,
-           AmmoCurrentData.Clips);
 }
 
 bool ASTUBaseWeapon::CanReload() const

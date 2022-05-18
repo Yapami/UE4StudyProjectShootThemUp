@@ -1,9 +1,9 @@
 // Slava Ukraine
 
 #include "Components/STUWeaponComponent.h"
+#include "Animations/AnimUtils.h"
 #include "Animations/STUEquipFinishedAnimNotify.h"
 #include "Animations/STUReloadFinishedNotify.h"
-#include "Animations/AnimUtils.h"
 #include "GameFramework/Character.h"
 #include "Player/STUBaseCharacter.h"
 #include "Weapon/STUBaseWeapon.h"
@@ -199,4 +199,14 @@ void USTUWeaponComponent::FireStop()
 {
     ensure(CurrentWeapon);
     CurrentWeapon->FireStop();
+}
+
+bool USTUWeaponComponent::GetWeaponUIData(FWeaponUIData& UIData)
+{
+    if (CurrentWeapon)
+    {
+        UIData = CurrentWeapon->GetWeaponUIData();
+        return true;
+    }
+    return false;
 }

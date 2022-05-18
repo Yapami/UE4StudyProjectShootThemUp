@@ -9,7 +9,7 @@ DEFINE_LOG_CATEGORY_STATIC(GameHUD, All, All);
 void ASTUGameHUD::DrawHUD()
 {
     Super::DrawHUD();
-    DrawCrossHair();
+    //DrawCrossHair();
 }
 
 void ASTUGameHUD::DrawCrossHair()

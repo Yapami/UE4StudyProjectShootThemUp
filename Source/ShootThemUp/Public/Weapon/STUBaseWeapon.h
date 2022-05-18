@@ -20,14 +20,26 @@ public:
 
     FOnClipEmptySignature OnClipEmpty;
     void ChangeClip();
-    bool CanReload() const; 
+    bool CanReload() const;
+
+    FWeaponUIData GetWeaponUIData() const
+    {
+        return UIData;
+    }
+
+    FAmmoData GetAmmoCurrentData()
+    {
+        return AmmoCurrentData;
+    }
 
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
     USkeletalMeshComponent* WeaponMesh;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    FWeaponUIData UIData;
 
     APlayerController* GetPlayerConrtoller() const;
     bool GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const;
@@ -55,8 +67,6 @@ protected:
     void DecreaseAmmo();
     bool IsAmmoEmpty() const;
     bool IsClipEmpty() const;
-    void LogAmmo();
-
 
 private:
     FAmmoData AmmoCurrentData;

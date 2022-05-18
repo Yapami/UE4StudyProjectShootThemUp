@@ -24,7 +24,12 @@ public:
     void FireStop();
     void NextWeapon();
     void Reload();
-
+    bool GetWeaponUIData(FWeaponUIData& UIData);
+    ASTUBaseWeapon* GetCurrentWeapon()
+    {
+        return CurrentWeapon;
+    }
+     
 protected:
     // Called when the game starts
     virtual void BeginPlay() override;
