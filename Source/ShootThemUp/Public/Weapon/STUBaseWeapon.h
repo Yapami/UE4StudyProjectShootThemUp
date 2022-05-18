@@ -32,6 +32,8 @@ public:
         return AmmoCurrentData;
     }
 
+    bool TryToAddAmmo(int32 ClipsAmount);
+
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
@@ -70,4 +72,5 @@ protected:
 
 private:
     FAmmoData AmmoCurrentData;
+    bool IsAmmoFull();
 };

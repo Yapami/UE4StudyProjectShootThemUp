@@ -29,6 +29,7 @@ public:
     {
         return CurrentWeapon;
     }
+    bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
      
 protected:
     // Called when the game starts
@@ -68,7 +69,7 @@ private:
     bool CanEquip() const;
     bool CanReload() const;
 
-    void OnEmptyClip();
+    void OnEmptyClip(ASTUBaseWeapon* AmmoEmptyWeapon);
     void ChangeClip();
 
     UAnimMontage* CurrentReloaadAnimMontage = nullptr;

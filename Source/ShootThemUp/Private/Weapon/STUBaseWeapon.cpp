@@ -18,6 +18,39 @@ ASTUBaseWeapon::ASTUBaseWeapon()
     SetRootComponent(WeaponMesh);
 }
 
+bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
+{
+    if (AmmoCurrentData.Infinity || IsAmmoFull() || ClipsAmount <= 0)
+        return false;
+    if (IsAmmoEmpty())
+    {
+        AmmoCurrentData.Clips =
+            FMath::Clamp(AmmoCurrentData.Clips + ClipsAmount, 0, AmmoDefaultData.Clips + 1);
+        OnClipEmpty.Broadcast(this);
+        return true;
+    }
+    else if (AmmoCurrentData.Clips < AmmoDefaultData.Clips)
+    {
+        const auto NextClipsAmount = AmmoCurrentData.Clips + ClipsAmount;
+        if (AmmoDefaultData.Clips - NextClipsAmount >=0 )
+        {
+            AmmoCurrentData.Clips = NextClipsAmount;
+        }
+        else
+        {
+            AmmoCurrentData.Clips = AmmoDefaultData.Clips;
+            AmmoCurrentData.Bullets = AmmoDefaultData.Bullets;
+        }
+        return true;
+    }
+    else
+    {
+        AmmoCurrentData.Bullets = AmmoDefaultData.Bullets;
+        return true;
+    }
+    return false;
+}
+
 // Called when the game starts or when spawned
 void ASTUBaseWeapon::BeginPlay()
 {
@@ -46,7 +79,7 @@ void ASTUBaseWeapon::DecreaseAmmo()
     if (!IsAmmoEmpty() && IsClipEmpty())
     {
         FireStop();
-        OnClipEmpty.Broadcast();
+        OnClipEmpty.Broadcast(this);
     }
 }
 
@@ -58,6 +91,12 @@ bool ASTUBaseWeapon::IsAmmoEmpty() const
 bool ASTUBaseWeapon::IsClipEmpty() const
 {
     return AmmoCurrentData.Bullets == 0;
+}
+
+bool ASTUBaseWeapon::IsAmmoFull()
+{
+    return AmmoCurrentData.Bullets == AmmoDefaultData.Bullets &&
+           AmmoCurrentData.Clips == AmmoDefaultData.Clips;
 }
 
 void ASTUBaseWeapon::ChangeClip()
