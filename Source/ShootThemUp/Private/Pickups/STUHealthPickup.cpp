@@ -1,10 +1,16 @@
 // Slava Ukraine
 
-
 #include "Pickups/STUHealthPickup.h"
+#include "Components/STUHealthComponent.h"
+#include "STUUtils.h"
 
 bool ASTUHealthPickup::GivePickupTo(APawn* PlayerPawn)
 {
-    UE_LOG(LogTemp, Error, TEXT("LOG 12: Healch"));
-    return true;
+    const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PlayerPawn);
+    if (!HealthComponent || HealthComponent->IsDead())
+    {
+        return false;
+    }
+
+    return HealthComponent->TryToAddHealth(HealthAmount);
 }

@@ -64,3 +64,16 @@ void USTUHealthComponent::SetHealth(float NewHealth)
     Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
     OnHelthChanged.Broadcast(Health);
 }
+
+bool USTUHealthComponent::TryToAddHealth(float HelthAmount)
+{
+    if (FMath::IsNearlyEqual(Health, MaxHealth))
+    {
+        return false;
+    }
+    else
+    {
+        SetHealth(Health + HelthAmount);
+        return true;
+    }
+}

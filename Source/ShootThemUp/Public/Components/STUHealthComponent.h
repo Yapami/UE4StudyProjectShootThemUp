@@ -37,6 +37,8 @@ public:
         return Health / MaxHealth;
     }
 
+    bool TryToAddHealth(float HelthAmount);
+
 protected:
     // Called when the game starts
     virtual void BeginPlay() override;

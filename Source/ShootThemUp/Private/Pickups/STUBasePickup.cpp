@@ -33,6 +33,7 @@ void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor)
 void ASTUBasePickup::BeginPlay()
 {
     Super::BeginPlay();
+    GenerateRotationYaw();
 }
 
 void ASTUBasePickup::PickupWasTaken()
@@ -47,8 +48,15 @@ void ASTUBasePickup::PickupWasTaken()
 
 void ASTUBasePickup::Respawn()
 {
+    GenerateRotationYaw();
     CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
     GetRootComponent()->SetVisibility(true, true);
+}
+
+void ASTUBasePickup::GenerateRotationYaw()
+{
+    const auto Direction = FMath::RandBool() ? -1.f : 1.f;
+    RotationYaw = FMath::RandRange(1.f, 2.f) * Direction;
 }
 
 bool ASTUBasePickup::GivePickupTo(APawn* PlayerPawn)
@@ -60,4 +68,5 @@ bool ASTUBasePickup::GivePickupTo(APawn* PlayerPawn)
 void ASTUBasePickup::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    AddActorLocalRotation(FRotator(0.f, RotationYaw, 0.f));
 }
