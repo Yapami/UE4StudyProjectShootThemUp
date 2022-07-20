@@ -7,6 +7,7 @@
 #include "STUProjectile.generated.h"
 
 class USphereComponent;
+class USTUWeaponFXComponent;
 class UProjectileMovementComponent;
 
 UCLASS()
@@ -36,13 +37,16 @@ protected:
     UPROPERTY(EditAnywhere)
     bool DoFullDamage = false;
 
+    UPROPERTY(VisibleAnywhere, Category = "VFX")
+    USTUWeaponFXComponent* WeaponFXComponent;
+
     AController* GetController() const;
 
 private:
     FVector ShotDirection;
 
     UFUNCTION()
-    void OnProjectileHit(UPrimitiveComponent* HitComponent,
-                         AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse,
+    void OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
+                         UPrimitiveComponent* OtherComp, FVector NormalImpulse,
                          const FHitResult& Hit);
 };

@@ -1,11 +1,16 @@
 // Slava Ukraine
 
-
 #include "Weapon/STURifleWeapon.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
+#include "Weapon/Components/STUWeaponFXComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(RIFLE_WEAPON_COMPONENT, All, All);
+
+ASTURifleWeapon::ASTURifleWeapon()
+{
+    WeaponFXComponent = CreateDefaultSubobject<USTUWeaponFXComponent>("WeaponFXComponent");
+}
 
 void ASTURifleWeapon::FireStart()
 {
@@ -17,6 +22,13 @@ void ASTURifleWeapon::FireStart()
 void ASTURifleWeapon::FireStop()
 {
     GetWorld()->GetTimerManager().ClearTimer(FireTimer);
+}
+
+void ASTURifleWeapon::BeginPlay()
+{
+    Super::BeginPlay();
+
+    check(WeaponFXComponent);
 }
 
 void ASTURifleWeapon::MakeShot()
@@ -40,11 +52,12 @@ void ASTURifleWeapon::MakeShot()
 
     if (HitResult.bBlockingHit)
     {
-        DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.f, 24, FColor::Red, false, 4.f);
-        DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red,
-                      false, 3.0f, 0, 3.0f);
+        //DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.f, 24, FColor::Red, false, 4.f);
+        //DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red,
+        //              false, 3.0f, 0, 3.0f);
 
         MakeDamage(HitResult);
+        WeaponFXComponent->PlayImpactFX(HitResult);
     }
     else
     {
@@ -70,7 +83,7 @@ bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
 
 void ASTURifleWeapon::MakeDamage(FHitResult& HitResult)
 {
-    if (HitResult.GetActor()   )
+    if (HitResult.GetActor())
     {
         HitResult.GetActor()->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerConrtoller(),
                                          GetOwner());
