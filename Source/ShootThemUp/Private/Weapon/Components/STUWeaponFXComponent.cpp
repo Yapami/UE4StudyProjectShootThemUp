@@ -1,6 +1,8 @@
 // Slava Ukraine
 
 #include "Weapon/Components/STUWeaponFXComponent.h"
+#include "Components/DecalComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 
 // Sets default values for this component's properties
@@ -15,17 +17,29 @@ USTUWeaponFXComponent::USTUWeaponFXComponent()
 
 void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
 {
-    UNiagaraSystem* Effect = DefaultEffect;
+    auto ImpactData = DefaultImpactData;
 
     if (Hit.PhysMaterial.IsValid())
     {
         auto PhysMat = Hit.PhysMaterial.Get();
 
-        if (EffectsMap.Contains(PhysMat))
+        if (ImpactDataMap.Contains(PhysMat))
         {
-            Effect = EffectsMap[PhysMat];
+            ImpactData = ImpactDataMap[PhysMat];
         }
     }
+    // niagara:
+    UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactData.NiagaraEffect,
+                                                   Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 
-    UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), Effect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());    
+    // decal:
+    auto DecalComponent = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), ImpactData.DecalData.Material,
+                                           ImpactData.DecalData.Size, Hit.ImpactPoint,
+                                           Hit.ImpactNormal.Rotation());
+    
+    if (DecalComponent)
+    {
+        DecalComponent->SetFadeOut(ImpactData.DecalData.LifeTime, ImpactData.DecalData.FadeOutTime);
+    }
 }
+
