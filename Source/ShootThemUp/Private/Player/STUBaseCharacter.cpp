@@ -53,6 +53,7 @@ void ASTUBaseCharacter::BeginPlay()
     check(HealthComponent);
     check(HealthTextComponent);
     check(GetCharacterMovement());
+    check(GetMesh());
 
     OnHealthChanged(HealthComponent->GetHelth());
     HealthComponent->OnDeath.AddUObject(this, &ASTUBaseCharacter::OnDeath);
@@ -129,7 +130,7 @@ void ASTUBaseCharacter::SetIsRunning()
 void ASTUBaseCharacter::OnDeath()
 {
     WeaponComponent->FireStop();
-    PlayAnimMontage(DeathAnimMontage);
+    //PlayAnimMontage(DeathAnimMontage);
     GetCharacterMovement()->DisableMovement();
     SetLifeSpan(5.0f);
 
@@ -138,6 +139,9 @@ void ASTUBaseCharacter::OnDeath()
         Controller->ChangeState(NAME_Spectating);
     }
     GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+
+    GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetMesh()->SetSimulatePhysics(true);
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float Health)
