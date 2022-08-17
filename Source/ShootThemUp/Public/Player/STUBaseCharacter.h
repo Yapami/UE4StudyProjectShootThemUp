@@ -78,7 +78,7 @@ private:
     float Velocity = 300.f;
 
     void OnDeath();
-    void OnHealthChanged(float Health);
+    void OnHealthChanged(float Health, float DeltaHealth);
 
     UFUNCTION()
     void OnObjectLanded(const FHitResult& Hit);

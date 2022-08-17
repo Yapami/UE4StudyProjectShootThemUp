@@ -23,7 +23,7 @@ public:
         return Health;
     }
 
-    FOnHelthChanged OnHelthChanged;
+    FOnHelthChanged OnHealthChanged;
 
     UFUNCTION(BlueprintCallable)
     bool IsDead() const
