@@ -9,6 +9,7 @@
 #include "STURifleWeapon.generated.h"
 
 class USTUWeaponFXComponent;
+class UNiagaraComponent;
 
 /**
  *
@@ -40,5 +41,11 @@ protected:
     void MakeDamage(FHitResult& HitResult);
 
 private:
+    UPROPERTY()
+    UNiagaraComponent* MuzzleFXComponent;
+
     FTimerHandle FireTimer;
+
+    void InitMuzzleFX();
+    void SetMuzzleFXVisibility(bool Visibility);
 };

@@ -6,6 +6,8 @@
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Player/STUBaseCharacter.h"
 
 // Sets default values
@@ -32,7 +34,7 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
     else if (AmmoCurrentData.Clips < AmmoDefaultData.Clips)
     {
         const auto NextClipsAmount = AmmoCurrentData.Clips + ClipsAmount;
-        if (AmmoDefaultData.Clips - NextClipsAmount >=0 )
+        if (AmmoDefaultData.Clips - NextClipsAmount >= 0)
         {
             AmmoCurrentData.Clips = NextClipsAmount;
         }
@@ -91,6 +93,13 @@ bool ASTUBaseWeapon::IsAmmoEmpty() const
 bool ASTUBaseWeapon::IsClipEmpty() const
 {
     return AmmoCurrentData.Bullets == 0;
+}
+
+UNiagaraComponent* ASTUBaseWeapon::SpawnMuzzleFX()
+{
+    return UNiagaraFunctionLibrary::SpawnSystemAttached(
+        MuzzleFX, WeaponMesh, MuzzlseSocketName, FVector::ZeroVector, FRotator::ZeroRotator,
+        EAttachLocation::SnapToTarget, true);
 }
 
 bool ASTUBaseWeapon::IsAmmoFull()

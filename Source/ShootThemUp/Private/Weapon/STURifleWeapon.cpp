@@ -3,6 +3,7 @@
 #include "Weapon/STURifleWeapon.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
+#include "NiagaraComponent.h"
 #include "Weapon/Components/STUWeaponFXComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(RIFLE_WEAPON_COMPONENT, All, All);
@@ -14,6 +15,8 @@ ASTURifleWeapon::ASTURifleWeapon()
 
 void ASTURifleWeapon::FireStart()
 {
+    InitMuzzleFX();
+
     GetWorld()->GetTimerManager().SetTimer(FireTimer, this, &ASTURifleWeapon::MakeShot,
                                            ShootFrequency, true);
     MakeShot();
@@ -21,6 +24,8 @@ void ASTURifleWeapon::FireStart()
 
 void ASTURifleWeapon::FireStop()
 {
+    SetMuzzleFXVisibility(false);
+
     GetWorld()->GetTimerManager().ClearTimer(FireTimer);
 }
 
@@ -52,8 +57,8 @@ void ASTURifleWeapon::MakeShot()
 
     if (HitResult.bBlockingHit)
     {
-        //DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.f, 24, FColor::Red, false, 4.f);
-        //DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red,
+        // DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.f, 24, FColor::Red, false, 4.f);
+        // DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red,
         //              false, 3.0f, 0, 3.0f);
 
         MakeDamage(HitResult);
@@ -87,5 +92,23 @@ void ASTURifleWeapon::MakeDamage(FHitResult& HitResult)
     {
         HitResult.GetActor()->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerConrtoller(),
                                          GetOwner());
+    }
+}
+
+void ASTURifleWeapon::InitMuzzleFX()
+{
+    if (!MuzzleFXComponent)
+    {
+        MuzzleFXComponent = SpawnMuzzleFX();
+    }
+    SetMuzzleFXVisibility(true);
+}
+
+void ASTURifleWeapon::SetMuzzleFXVisibility(bool Visibility)
+{
+    if (MuzzleFXComponent)
+    {
+        MuzzleFXComponent->SetPaused(!Visibility);
+        MuzzleFXComponent->SetVisibility(Visibility, true);
     }
 }
