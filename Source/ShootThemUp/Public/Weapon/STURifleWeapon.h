@@ -9,6 +9,7 @@
 #include "STURifleWeapon.generated.h"
 
 class USTUWeaponFXComponent;
+class UNiagaraSystem;
 class UNiagaraComponent;
 
 /**
@@ -35,6 +36,12 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
     float HalfDegrees = 1.5f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+    UNiagaraSystem* TraceFX;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+    FString TraceTargetName = "TraceTarget";
+
     UPROPERTY(VisibleAnywhere, Category = "VFX")
     USTUWeaponFXComponent* WeaponFXComponent;
 
@@ -48,4 +55,5 @@ private:
 
     void InitMuzzleFX();
     void SetMuzzleFXVisibility(bool Visibility);
+    void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceFinish);
 };
