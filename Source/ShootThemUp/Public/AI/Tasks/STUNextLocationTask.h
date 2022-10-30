@@ -6,9 +6,6 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "STUNextLocationTask.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class SHOOTTHEMUP_API USTUNextLocationTask : public UBTTaskNode
 {
