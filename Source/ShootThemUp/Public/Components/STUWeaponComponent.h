@@ -20,9 +20,9 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
     TArray<FWeaponData> WeaponData;
-    void FireStart();
+    virtual void FireStart();
     void FireStop();
-    void NextWeapon();
+    virtual void NextWeapon();
     void Reload();
     bool GetWeaponUIData(FWeaponUIData& UIData);
     ASTUBaseWeapon* GetCurrentWeapon()
@@ -41,22 +41,28 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Weapon")
     FName WeaponArmorySocketName = "ArmorySocket";
 
-    UPROPERTY(EditAnywhere, Category = "Weapon")
+    UPROPERTY()
     ASTUBaseWeapon* CurrentWeapon = nullptr;
+
+    UPROPERTY()
+    TArray<ASTUBaseWeapon*> Weapons;
 
     UPROPERTY(EditAnywhere, Category = "Animation")
     UAnimMontage* EquipAnimMontage;
 
-private:
-    void SpawnWeapon();
-
-    TArray<ASTUBaseWeapon*> Weapons;
-    int8 CurrentWeaponIndex = 0;
-    void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* CharacterMesh,
-                              FName& SocketName);
+    bool CanFire() const;
+    bool CanEquip() const;
 
     void EquipWeapon(int8 WeaponIndex);
 
+    int8 CurrentWeaponIndex = 0;
+
+private:
+    void SpawnWeapon();
+    
+    void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* CharacterMesh,
+                              FName& SocketName);
+    
     void PlayAnimMontage(UAnimMontage* AnimMontage);
     void InitAnimations();
     void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
@@ -64,9 +70,7 @@ private:
 
     bool EquipAnimIsGoing = false;
     bool ReloadAnimIsGoing = false;
-
-    bool CanFire() const;
-    bool CanEquip() const;
+    
     bool CanReload() const;
 
     void OnEmptyClip(ASTUBaseWeapon* AmmoEmptyWeapon);

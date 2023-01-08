@@ -37,6 +37,7 @@ public:
     }
 
     bool TryToAddAmmo(int32 ClipsAmount);
+    bool IsAmmoEmpty() const;
 
 protected:
     // Called when the game starts or when spawned
@@ -74,7 +75,6 @@ protected:
     FAmmoData AmmoDefaultData = {15, 5, false};
 
     void DecreaseAmmo();
-    bool IsAmmoEmpty() const;
     bool IsClipEmpty() const;
 
     UNiagaraComponent* SpawnMuzzleFX();
