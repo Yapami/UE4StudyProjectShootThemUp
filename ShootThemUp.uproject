@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{011F7E87-4180-1189-954B-CEB693B2157F}",
+	"EngineAssociation": "{7CCF5125-4546-0734-3EF0-B2A7E8D83D7B}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -15,10 +15,5 @@
 			]
 		}
 	],
-	"Plugins": [
-		{
-			"Name": "CascadeToNiagaraConverter",
-			"Enabled": true
-		}
-	]
+	"Plugins": []
 }
