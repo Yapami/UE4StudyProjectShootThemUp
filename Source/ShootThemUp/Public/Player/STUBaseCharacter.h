@@ -50,6 +50,8 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Landed")
     FVector2D DamageRange = {10, 100};
 
+    virtual void OnDeath();
+
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
@@ -76,8 +78,7 @@ private:
 
     UPROPERTY(EditAnywhere)
     float Velocity = 300.f;
-
-    void OnDeath();
+    
     void OnHealthChanged(float Health, float DeltaHealth);
 
     UFUNCTION()
