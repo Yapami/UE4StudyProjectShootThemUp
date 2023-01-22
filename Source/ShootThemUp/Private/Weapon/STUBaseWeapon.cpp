@@ -102,7 +102,7 @@ UNiagaraComponent* ASTUBaseWeapon::SpawnMuzzleFX()
         EAttachLocation::SnapToTarget, true);
 }
 
-bool ASTUBaseWeapon::IsAmmoFull()
+bool ASTUBaseWeapon::IsAmmoFull() const
 {
     return AmmoCurrentData.Bullets == AmmoDefaultData.Bullets &&
            AmmoCurrentData.Clips == AmmoDefaultData.Clips;

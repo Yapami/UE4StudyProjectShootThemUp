@@ -30,6 +30,10 @@ public:
         return CurrentWeapon;
     }
     bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+
+    bool NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType);
+
+    bool AddAmmoToAllWeapons(int32 ClipsAmount);
      
 protected:
     // Called when the game starts

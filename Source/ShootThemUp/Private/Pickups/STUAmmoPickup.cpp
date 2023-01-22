@@ -20,5 +20,5 @@ bool ASTUAmmoPickup::GivePickupTo(APawn* PlayerPawn)
     }
 
 
-    return WeaponComponent->TryToAddAmmo(WeaponType, ClipsAmount);
+    return WeaponComponent->AddAmmoToAllWeapons(ClipsAmount);
 }

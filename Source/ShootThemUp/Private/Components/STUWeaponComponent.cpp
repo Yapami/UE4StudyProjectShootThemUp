@@ -33,6 +33,27 @@ bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, i
     return false;
 }
 
+bool USTUWeaponComponent::NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType)
+{
+    for (const auto Weapon : Weapons)
+    {
+        if (Weapon && Weapon->IsA(WeaponType))
+        {
+            return !Weapon->IsAmmoFull();
+        }
+    }
+    return false;
+}
+
+bool USTUWeaponComponent::AddAmmoToAllWeapons(int32 ClipsAmount)
+{
+    for (const auto Weapon : Weapons)
+    {
+        Weapon->TryToAddAmmo(ClipsAmount);
+    }
+    return true;
+}
+
 // Called when the game starts
 void USTUWeaponComponent::BeginPlay()
 {

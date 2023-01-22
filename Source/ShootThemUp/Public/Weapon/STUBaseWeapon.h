@@ -38,6 +38,7 @@ public:
 
     bool TryToAddAmmo(int32 ClipsAmount);
     bool IsAmmoEmpty() const;
+    bool IsAmmoFull() const;
 
 protected:
     // Called when the game starts or when spawned
@@ -81,5 +82,4 @@ protected:
 
 private:
     FAmmoData AmmoCurrentData;
-    bool IsAmmoFull();
 };
