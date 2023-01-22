@@ -16,14 +16,14 @@ class SHOOTTHEMUP_API ASTUBasePickup : public AActor
 public:
     // Sets default values for this actor's properties
     ASTUBasePickup();
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Pickup")
     USphereComponent* CollisionComponent;
     virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Pickup")
     float RespawnTime = 5.0f;
     virtual bool GivePickupTo(APawn* PlayerPawn);
 
@@ -31,10 +31,12 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+    bool CouldBeTaken() const;
+
 private:
     void PickupWasTaken();
     void Respawn(); 
     void GenerateRotationYaw();
-
+    FTimerHandle RespawnTimerHandle;
     float RotationYaw;
 };

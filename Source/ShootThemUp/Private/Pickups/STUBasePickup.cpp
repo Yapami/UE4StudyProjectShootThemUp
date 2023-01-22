@@ -40,9 +40,8 @@ void ASTUBasePickup::PickupWasTaken()
 {
     CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
     GetRootComponent()->SetVisibility(false, true);
-
-    FTimerHandle Timer;
-    GetWorld()->GetTimerManager().SetTimer(Timer, this, &ASTUBasePickup::Respawn, RespawnTime,
+    
+    GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &ASTUBasePickup::Respawn, RespawnTime,
                                            false);
 }
 
@@ -69,4 +68,9 @@ void ASTUBasePickup::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
     AddActorLocalRotation(FRotator(0.f, RotationYaw, 0.f));
+}
+
+bool ASTUBasePickup::CouldBeTaken() const
+{
+    return GetWorldTimerManager().IsTimerActive(RespawnTimerHandle);
 }
