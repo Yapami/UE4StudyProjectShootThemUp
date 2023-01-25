@@ -127,15 +127,6 @@ bool ASTUBaseWeapon::CanReload() const
     return AmmoCurrentData.Bullets < AmmoDefaultData.Bullets && AmmoCurrentData.Clips > 0;
 }
 
-APlayerController* ASTUBaseWeapon::GetPlayerConrtoller() const
-{
-    const auto Player = Cast<ACharacter>(GetOwner());
-    ensure(Player);
-    APlayerController* Controller = Player->GetController<APlayerController>();
-    ensure(Controller);
-    return Controller;
-}
-
 bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
 {
     const auto STUCharacter = Cast<ACharacter>(GetOwner());
@@ -146,7 +137,7 @@ bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRot
 
     if(STUCharacter->IsPlayerControlled())
     {
-        const auto Controller = GetPlayerConrtoller();
+        const auto Controller = STUCharacter->GetController<APlayerController>();
         if (!Controller)
             return false;
 

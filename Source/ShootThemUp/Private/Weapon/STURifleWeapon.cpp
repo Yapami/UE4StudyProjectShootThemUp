@@ -6,6 +6,7 @@
 #include "NiagaraComponent.h"
 #include "Weapon/Components/STUWeaponFXComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Engine/DamageEvents.h"
 
 DEFINE_LOG_CATEGORY_STATIC(RIFLE_WEAPON_COMPONENT, All, All);
 
@@ -85,7 +86,7 @@ void ASTURifleWeapon::MakeDamage(FHitResult& HitResult)
 {
     if (HitResult.GetActor())
     {
-        HitResult.GetActor()->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerConrtoller(),
+        HitResult.GetActor()->TakeDamage(DamageAmount, FDamageEvent(), GetController(),
                                          GetOwner());
     }
 }
@@ -117,3 +118,10 @@ void ASTURifleWeapon::SpawnTraceFX(const FVector& TraceStart, const FVector& Tra
         TraceFXComponent->SetNiagaraVariableVec3(TraceTargetName, TraceEnd);
     }
 }
+
+AController* ASTURifleWeapon::GetController() const
+{
+    const auto Pawn = Cast<APawn>(GetOwner());
+    return Pawn ? Pawn->GetController() : nullptr;
+}
+
