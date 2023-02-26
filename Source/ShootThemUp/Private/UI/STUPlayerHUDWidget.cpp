@@ -71,12 +71,7 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 
 bool USTUPlayerHUDWidget::Initialize()
 {
-    const auto Player = GetOwningPlayerPawn();
-    if (!Player)
-    {
-        return false;
-    }
-    auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(Player);
+    auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
     if (HealthComponent)
     {
         HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
